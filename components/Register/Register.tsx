@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import InputFields from "../UI components/InputFields";
 import { State, City, IState, ICity } from "country-state-city";
-import { loginInputData } from "./loginData";
+import { RegisterInputData } from "./registerData";
 import Buttons from "../UI components/Buttons";
 import { register } from "@/utils/register";
 
-const Login = () => {
+const Register = () => {
   interface UserFormState {
     email: string;
     password: string;
@@ -74,6 +74,7 @@ const Login = () => {
       setCities(StateCities);
     };
     getCity();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValues]);
 
   return (
@@ -81,7 +82,7 @@ const Login = () => {
       className="bg-white grid md:grid-cols-2 grid-cols-1 gap-y-[1.2rem] md:gap-x-[1.2rem] p-[9rem]"
       onSubmit={(e) => handleRegister(inputValues, e)}
     >
-      {loginInputData.map(({ name, type, id, placeholder }: propsType) => {
+      {RegisterInputData.map(({ name, type, id, placeholder }: propsType) => {
         return (
           <InputFields
             key={id}
@@ -105,7 +106,7 @@ const Login = () => {
           value={inputValues.state}
           onChange={handleChange}
         >
-          <option value="" disabled selected hidden>
+          <option value="" disabled hidden>
             Select State
           </option>
           {NgStates?.map((i) => (
@@ -126,7 +127,7 @@ const Login = () => {
           value={inputValues.city}
           onChange={handleChange}
         >
-          <option value="" disabled selected hidden>
+          <option value="" disabled hidden>
             Select City
           </option>
           {cities?.map((i) => (
@@ -143,4 +144,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

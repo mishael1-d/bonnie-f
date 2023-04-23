@@ -32,7 +32,7 @@ function InputFields({
         className="w-full border h-[3.2rem] px-3 border-[#051D4C] outline-none focus:outline-none text-[1.2rem] peer"
         required
         minLength={type === "password" ? 8 : id === "phoneNumber" ? 11 : 3}
-        pattern={id === "confirmPassword" && value.password }
+        pattern={id === "confirmPassword" ? value.password : undefined}
       />
       <RiErrorWarningLine
         className="peer-invalid:text-red-500 peer-valid:text-green-500 mt-2 ml-auto"
