@@ -8,12 +8,12 @@ import { sendConfirmationEmail } from "@/utils/sendEmailConfirmation";
 type Data = {
   message: string;
   userDetails?: {
-    first_name: string;
-    last_name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     password: string;
     confirmPassword: string;
-    phoneNumber1: string;
+    phoneNumber: string;
     phoneNumber2?: string;
     state: string;
     city: string;
@@ -26,10 +26,10 @@ type Data = {
 };
 interface FieldErrors {
   email?: string;
-  first_name?: string;
-  last_name?: string;
+  firstName?: string;
+  lastName?: string;
   confirmPassword?: string;
-  phoneNumber1?: string;
+  phoneNumber?: string;
   state?: string;
   city?: string;
   password?: string;
@@ -51,10 +51,10 @@ export default async function handler(
   const {
     email,
     password,
-    first_name,
-    last_name,
+    firstName,
+    lastName,
     confirmPassword,
-    phoneNumber1,
+    phoneNumber,
     phoneNumber2,
     state,
     city,
@@ -72,12 +72,12 @@ export default async function handler(
       errors.email = "Email Field is Required";
       break;
     // If there is no first name or if the first name input is empty, then throw an error
-    case !first_name || first_name.trim() === "":
-      errors.first_name = "First Name Field is Required";
+    case !firstName || firstName.trim() === "":
+      errors.firstName = "First Name Field is Required";
       break;
     // If there is no last name or if the last name input is empty, then throw an error
-    case !last_name || last_name.trim() === "":
-      errors.last_name = "Last Name Field is Required";
+    case !lastName || lastName.trim() === "":
+      errors.lastName = "Last Name Field is Required";
       break;
     // If there is no confirm password or if the confirm password input is empty, then throw an error
     case !confirmPassword || confirmPassword.trim() === "":
@@ -88,8 +88,8 @@ export default async function handler(
       errors.confirmPassword = "Passwords do not match";
       break;
     // If there is no phone number or if the phone number input is empty, then throw an error
-    case !phoneNumber1 || phoneNumber1.trim() === "":
-      errors.phoneNumber1 = "Phone Number 1 Field is Required";
+    case !phoneNumber || phoneNumber.trim() === "":
+      errors.phoneNumber = "Phone Number 1 Field is Required";
       break;
     // If there is no state or if the state input is empty, then throw an error
     case !state || state.trim() === "":
@@ -110,9 +110,12 @@ export default async function handler(
 
   // Get all users and find the user which matches with the email in the input field
   const user = await db.collection("users").findOne({ email: email });
+  console.log(email);
   // If the user is present, throw an error that the user already exists
   if (user) {
-    errors.email = "User with this email already exists";
+    return res
+      .status(400)
+      .json({ message: "User with this email already exists" });
   }
   if (Object.keys(errors).length > 0) {
     return res.status(400).json({
@@ -126,19 +129,17 @@ export default async function handler(
   // If all checks pass, it creates our user in our DB.
   let usersData = {
     token,
-    userDetails: {
-      email,
-      password,
-      first_name,
-      last_name,
-      confirmPassword,
-      phoneNumber1,
-      phoneNumber2,
-      state,
-      city,
-      isVerified: false,
-      userRole: "customer",
-    }
+    email,
+    password,
+    firstName,
+    lastName,
+    confirmPassword,
+    phoneNumber,
+    phoneNumber2,
+    state,
+    city,
+    isVerified: false,
+    userRole: "customer",
   };
 
   // regsiter the user inside the db
@@ -155,10 +156,10 @@ export default async function handler(
       userId: result.insertedId,
       email,
       password,
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       confirmPassword,
-      phoneNumber1,
+      phoneNumber,
       phoneNumber2,
       state,
       city,

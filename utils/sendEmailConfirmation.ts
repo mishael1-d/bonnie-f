@@ -25,13 +25,13 @@ export const sendConfirmationEmail = (toUser: any, type: string) => {
       html:
         type === "confirmation"
           ? `
-          <h3> Hello ${toUser?.first_name} </h3>
+          <h3> Hello ${toUser?.firstName} </h3>
           <p>Thank you for registering into our Application. Much Appreciated! Just one last step is laying ahead of you...</p>
           <p>To activate your account please follow this link: <a target="_" href="${process.env.DOMAIN}/api/accounts/activate?email=${toUser?.email}">${process.env.DOMAIN}/activate </a></p>
           <p>Cheers</p>
           <p>Your Application Team</p>
         `
-          : ` <h3> Hello ${toUser?.first_name} </h3>
+          : ` <h3> Hello ${toUser?.firstName} </h3>
         <p>Your account has successfully been activated</p>
         <p>To login your account please follow this link: <a target="_" href="${process.env.DOMAIN}/login">Login Here </a></p>
         <p>Cheers</p>              
