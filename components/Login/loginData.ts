@@ -26,7 +26,7 @@ export const loginInputData = [
     {
         id: "password",
         name: "Password",
-        type: "paswword",
+        type: "password",
     },
     {
         id: "confirmPassword",
