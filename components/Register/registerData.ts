@@ -1,4 +1,4 @@
-export const loginInputData = [
+export const RegisterInputData = [
     {
         id: "firstName",
         name: "First Name",
